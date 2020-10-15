@@ -1,5 +1,6 @@
 class TuitsController < ApplicationController
   before_action :set_tuit, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: [:index, :show]
 
   # GET /tuits
   # GET /tuits.json
@@ -15,7 +16,7 @@ class TuitsController < ApplicationController
 
   # GET /tuits/new
   def new
-    @tuit = Tuit.new
+    @tuit = current_user.tuits.build
   end
 
   # GET /tuits/1/edit
@@ -25,7 +26,7 @@ class TuitsController < ApplicationController
   # POST /tuits
   # POST /tuits.json
   def create
-    @tuit = Tuit.new(tuit_params)
+    @tuit = current_user.tuits.build(tuit_params)
 
     respond_to do |format|
       if @tuit.save
@@ -43,7 +44,7 @@ class TuitsController < ApplicationController
   def update
     respond_to do |format|
       if @tuit.update(tuit_params)
-        format.html { redirect_to @tuit, notice: 'Tuit was successfully updated.' }
+        format.html { redirect_to root_path, notice: 'Tuit was successfully updated.' }
         format.json { render :show, status: :ok, location: @tuit }
       else
         format.html { render :edit }
