@@ -1,27 +1,29 @@
 <div class="column is-half">
+  <% if user_signed_in? %>
   <article class="media box">
     <figure class="media-left">
       <p class="image is-64x64">
-        <img src="https://bulma.io/images/placeholders/64x64.png" />
+        	<%= gravatar_image_tag(current_user.email, size: 64, alt: current_user.name) %>
       </p>
     </figure>
     <div class="media-content">
       <%= render 'tuits/form' %>
     </div>
   </article>
+  <% end %>
 
   <% @tuits.each do | tuit | %>
   <div class="box">
     <article class="media">
       <div class="media-left">
         <figure class="image is-64x64">
-          <img src="https://bulma.io/images/placeholders/64x64.png" />
+          	<%= gravatar_image_tag(tuit.user.email, size: 64, alt: tuit.user.name) %>
         </figure>
       </div>
       <div class="media-content">
         <div class="content">
-          <strong>Miguel Uszcátegui</strong><br />
-          <small>@Miguelus373</small><br />
+          <strong><%= tuit.user.name %></strong><br />
+          <small><%= tuit.user.username %></small><br />
           <p><%= tuit.tuit %></p>
         </div>
         <nav class="level">
